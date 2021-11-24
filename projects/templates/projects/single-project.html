@@ -2,7 +2,15 @@
 
 {% block content %}
 
-    <h1>Hello Single Project</h1>
-    <p>{{ project.title }}</p>
+<img style="max-width: 500px;" src="{{ project.featured_image.url }}" alt="">
+
+<h1>{{ project.title }}</h1>
+<hr>
+{% for tag in project.tags.all %}
+<span style="border: 1px solid grey;">{{tag}}</span>
+{% endfor %}
+<hr>
+<br>
+<p>{{project.description}}</p>
 
 {% endblock content %}
