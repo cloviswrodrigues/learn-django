@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Profile
 from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
+
 
 
 def loginUser(request):
@@ -54,7 +56,7 @@ def registerUser(request):
             return redirect('profiles')
         
         else:
-            messages.success(request, 'An error has occured during registration')
+            messages.error(request, 'An error has occured during registration')
 
     context = { 'page': page, 'form': form }
     return render(request, 'users/login_register.html', context)
@@ -72,3 +74,11 @@ def profile(request, pk):
 
     context = {"profile": profile, "topSkills": topSkills, "otherSkills": otherSkills}
     return render(request,'users/user-profile.html', context)    
+
+@login_required(login_url='login')
+def userAccount(request):
+    profile = request.user.profile
+    skills = profile.skill_set.all()
+    projects = profile.project_set.all()
+    context = { 'profile': profile, 'skills': skills, 'projects': projects }
+    return render(request, 'users/account.html', context)
