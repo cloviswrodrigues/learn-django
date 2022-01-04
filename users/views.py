@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Profile
-from .forms import CustomUserCreationForm, ProfileForm
+from .forms import CustomUserCreationForm, ProfileForm, SkillForm
 
 
 
@@ -98,3 +98,17 @@ def editAccount(request):
 
     context = {'form': form}
     return render(request, 'users/profile_form.html', context)
+
+def createSkill(request):
+    form = SkillForm()
+
+    if request.POST == 'POST':
+        skill = form.SkillForm(request.POST)
+        if skill.is_valid():
+            skill.save(commit=False)
+            skill.owner = profile
+            skill.save()
+            return redirect('account')
+
+    context = { 'form': form }
+    return render(request,'users/skill_form.html', context)
