@@ -100,12 +100,13 @@ def editAccount(request):
     return render(request, 'users/profile_form.html', context)
 
 def createSkill(request):
+    profile = request.user.profile
     form = SkillForm()
 
-    if request.POST == 'POST':
-        skill = form.SkillForm(request.POST)
-        if skill.is_valid():
-            skill.save(commit=False)
+    if request.method == 'POST':
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            skill = form.save(commit=False)
             skill.owner = profile
             skill.save()
             return redirect('account')
