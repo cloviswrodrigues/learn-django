@@ -154,5 +154,14 @@ def inbox(request):
 def viewMessage(request, pk):
     profile = request.user.profile
     message = profile.messages.get(id=pk)
+    if message.is_read == False:
+        message.is_read = True
+        message.save()
     context = {'message': message}
     return render(request, 'users/message.html', context)
+
+def createMessage(request, pk):
+    recipient = Profile.objects.get(id=pk)
+
+    context = { 'recipient': recipient }
+    return render(request, 'users/message_form.html', context)
