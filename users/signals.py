@@ -22,7 +22,7 @@ def createProfile(sender, instance, created, **kwargs):
         send_mail(
             subject,
             message,
-            settings.EMAIL_HOST_user,
+            settings.EMAIL_HOST_USER,
             [profile.email],
             fail_silently=False,
         )
